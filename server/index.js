@@ -1,23 +1,32 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
-require('dotenv').config()
+const { config } = require('dotenv');
+config
 
-// Middleware config
+// Middleware
+// app.use(cors({
+//     origin: ['http://localhost:5174/', 'http://localhost:5174/superadmin/login-page'],
+//     credentials: true,
+//     allowedHeaders: "*",
+// }))
 app.use(express.json());
 
+// Routes
+app.use('/api/auth', require('./routes/auth'));
 
-// MOngoDB config
 mongoose
-    .connect(process.env.MONGODB_URI, {
+    .connect("mongodb+srv://Hosteet:Trucki%402023@cluster0.5aikql0.mongodb.net/?retryWrites=true&w=majority", {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
-    .then(() => console.log('MOngoDB Connected'))
-    .catch((err) => console.log(err))
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((error) => console.error('Failed to connect to MongoDB:', error));
 
-// Starting the server
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-    console.log(`server is running on port ${port}`)
+
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
 });
