@@ -3,7 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { config } = require('dotenv');
-const mailjet = require('node-mailjet').connect(apiKey, apiSecret);
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 // Super Admin Model
 const User = require('../models/User');
@@ -11,30 +12,33 @@ const User = require('../models/User');
 // Function to send password reset email
 const sendPasswordResetEmail = async (email, resetLink) => {
     try {
-        const request = mailjet.post('send', { version: 'v3.1' }).request({
-            Messages: [
-                {
-                    From: {
-                        Email: 'sender@example.com', // Replace with your sender email address
-                        Name: 'Sender Name' // Replace with your sender name
-                    },
-                    To: [
-                        {
-                            Email: email // Email address of the recipient
-                        }
-                    ],
-                    Subject: 'Password Reset',
-                    HTMLPart: `<p>Please click the following link to reset your password:</p><p><a href="${resetLink}">${resetLink}</a></p>`
-                }
-            ]
+        // Create a transporter using SMTP settings or other transport options
+        const transporter = nodemailer.createTransport({
+            // Specify your email provider's SMTP settings or other transport options
+            service: 'Gmail',
+            auth: {
+                user: 'ogundebusayo16@gmail.com', // Replace with your email address
+                pass: "busayo'sgmail2023" // Replace with your email password
+            }
         });
 
-        await request;
+        // Define the email options
+        const mailOptions = {
+            from: 'ogundebusayo16@gmail.com', // Replace with your email address
+            to: email,
+            subject: 'Password Reset',
+            html: `<p>Please click the following link to reset your password:</p><p><a href="${resetLink}">${resetLink}</a></p>`
+        };
+
+        // Send the email
+        await transporter.sendMail(mailOptions);
+
         console.log('Password reset email sent successfully');
     } catch (error) {
         console.error('Error sending password reset email:', error);
     }
 };
+
 
 // Super Admin Signup Route
 router.post('/signup', async (req, res) => {
@@ -99,44 +103,50 @@ router.post('/forgot-password', async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Generate a password reset token
-        const resetToken = jwt.sign({ userId: user._id }, 'secret', { expiresIn: '1h' });
+        // Generate a random OTP (combination of numbers and letters)
+        const otp = crypto.randomBytes(4).toString('hex').toUpperCase();
 
-        // Generate the reset link
-        const resetLink = `${req.protocol}://${req.get('host')}/reset-password/${resetToken}`;
+        // Update the user's OTP in the database
+        user.otp = otp;
+        await user.save();
 
-        // Send the password reset email
+        // Send the OTP to the user's email
+        const resetLink = `${req.protocol}://${req.get('host')}/reset-password/${otp}`;
         await sendPasswordResetEmail(user.email, resetLink);
 
-        res.status(200).json({ message: 'Password reset email sent' });
+        res.status(200).json({ message: 'Password reset OTP sent' });
     } catch (error) {
         res.status(500).json({ message: 'An error occurred' });
     }
 });
 
+
 // Reset Password Route
-router.post('/reset-password/:token', async (req, res) => {
-    const { token } = req.params;
-    const { password } = req.body;
+router.post('/reset-password', async (req, res) => {
+    const { email, otp, password } = req.body;
 
     try {
-        // Verify the password reset token
-        const decodedToken = jwt.verify(token, 'secret');
-        const userId = decodedToken.userId;
-
-        // Update the user's password
-        let user = await User.findById(userId);
+        // Check if the email exists in the database
+        const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 12);
-        user.password = hashedPassword;
-        const newUser = await user.save();
+        // Check if the OTP matches
+        if (user.otp !== otp) {
+            return res.status(400).json({ message: 'Invalid OTP' });
+        }
 
-        res.status(200).json({ message: 'Password updated successfully', user: newUser });
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(password, 12);
+
+        // Update the user's password and clear the OTP
+        user.password = hashedPassword;
+        user.otp = undefined;
+        await user.save();
+
+        res.status(200).json({ message: 'Password updated successfully' });
     } catch (error) {
-        console.log(error);
         res.status(500).json({ message: 'An error occurred' });
     }
 });
