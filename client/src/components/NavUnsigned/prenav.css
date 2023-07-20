@@ -1,0 +1,48 @@
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.logo > img {
+    width: 91.165px;
+    height: 45px;
+}
+.search > input {
+    width: 100px;
+    height: 45px;
+    border-radius: 8px;
+    background: #F6F6F6;
+    text-align: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+.countryCode {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.countryCode > img {
+    width: 28x;
+    height: 28px;
+}
+.auth {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.auth > a {
+    padding: 12px 48px;
+    border-radius: 8px;
+    text-decoration: none;
+    gap: 10px;
+}
+.login {
+    background: #8A33FD;
+    color: #fff;
+}
+.signup {
+    border-radius: 8px;
+    border: 1px solid #3C4242;
+    color: #8A33FD;
+}

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Logo from '../../assets/Logo.png'
+import Search from '../../assets/search.svg'
+import './prenav.css'
 
 const PreNav = () => {
     const [location, setLocation] = useState(null);
@@ -10,6 +12,7 @@ const PreNav = () => {
             const fetchLocation = async () => {
             try {
                 const response = await axios.get('https://api.ipregistry.co/?key=e8k7kc2jtqzi9nwe');
+                console.log(response)
                 setLocation(response.data);
             } catch (error) {
                 console.error('Error fetching location:', error.message);
@@ -19,23 +22,24 @@ const PreNav = () => {
     }, []);
 
     return (
-        <nav>
+        <nav className='nav-container'>
             <div className="logo">
                 <img src={Logo} alt='' />
             </div>
             <div className="search">
+                <span></span>
                 <input type="search" placeholder='search' />
             </div>
             <div className="countryCode">
-                {/* <img src={location?.location?.flag.emojitwo} alt='' /> */}
-                <span> {location?.location?.city},</span>
-                <span> {location?.location?.country.name}</span>
+                <img src={location?.location?.country?.flag.emojitwo} alt='' />
+                <span> {location?.location?.city}, {location?.location?.country.name}</span>
+                <span> </span>
             </div>
             <div className="auth">
-                <a href="">Login</a>
-                <a href="">Sign Up</a>
+                <a className='login' href="">Login</a>
+                <a className='signup' href="">Sign Up</a>
             </div>
-    </nav>
+        </nav>
     );
 };
 
