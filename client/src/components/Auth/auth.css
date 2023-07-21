@@ -1,0 +1,25 @@
+.signup-container {
+    display: flex;
+}
+.left-signup, .right-signup {
+    width: 50%;
+}
+
+.or {
+    display: flex;
+    gap: 50px;
+}
+hr {
+    height: 2px;
+    background: rgba(102, 102, 102, 0.25);
+    width: 50%;
+}
+
+.email, .password {
+    display: flex;
+    flex-direction: column;
+}
+input {
+    width: 567px;
+    height: 38px;
+}

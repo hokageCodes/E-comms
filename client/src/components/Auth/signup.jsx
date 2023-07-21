@@ -1,8 +1,9 @@
 import SignUpImg from '../../assets/signup.png'
 import GoogleOAuth from '../../assets/Google.svg'
+import './auth.css'
 export default function Signup() {
     return (
-        <div>
+        <div className='signup-container'>
             <div className="left-signup">
                 <img src={SignUpImg} alt='' />
             </div>
@@ -27,6 +28,14 @@ export default function Signup() {
                         <label>Password</label>
                         <input type='text' />
                     </div>
+                </div>
+                <a href="">Forgot your password?</a>
+                <a href="">Sign In</a>
+                <div className="no-account">
+                    <p>Dont have an account?</p>
+                    <span >
+                        <a href="">Sign up</a>
+                    </span>
                 </div>
             </div>
         </div>
