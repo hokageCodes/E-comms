@@ -8,7 +8,7 @@ const config = require("../config");
 // Register a new user
 exports.register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { email, password } = req.body;
 
     // Check if user already exists
     let user = await User.findOne({ email });
@@ -18,7 +18,6 @@ exports.register = async (req, res) => {
 
     // Create a new user
     user = new User({
-      name,
       email,
       password
     });

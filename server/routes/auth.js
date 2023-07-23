@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const { config } = require('dotenv');
+config();
 
 
 // Super Admin Model
@@ -9,7 +10,7 @@ const User = require('../models/User');
 
 // Super Admin Signup Route
 router.post('/signup', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { email, password } = req.body;
 
     try {
         // Check if the email already exists in the database
@@ -23,14 +24,13 @@ router.post('/signup', async (req, res) => {
 
         // Create a new super admin
         const newUser = new User({
-            name,
             email,
             password: hashedPassword,
         });
 
         await newUser.save();
 
-        res.status(201).json({ message: `Thank you, ${name}, your account was created successfully!` });
+        res.status(201).json({ message: `Thank you, ${email}, your account was created successfully!` });
     } catch (error) {
         res.status(500).json({ message: 'An error occurred' });
     }

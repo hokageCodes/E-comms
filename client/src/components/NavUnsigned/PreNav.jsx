@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Logo from '../../assets/Logo.png'
-import Search from '../../assets/search.svg'
 import './prenav.css'
 
 const PreNav = () => {
@@ -37,7 +36,7 @@ const PreNav = () => {
             </div>
             <div className="auth">
                 <a className='login' href="">Login</a>
-                <a className='signup' href="">Sign Up</a>
+                <a className='signup' href="/signup">Sign Up</a>
             </div>
         </nav>
     );
