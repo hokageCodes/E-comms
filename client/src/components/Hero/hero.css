@@ -1,0 +1,94 @@
+.hero-container {
+  background-image: url(../../assets/pslide.jpg);
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+  }
+  
+  .hero-content {
+    text-align: center;
+    color: #fff;
+    max-width: 80%;
+    padding: 0 20px;
+    z-index: 2;
+  }
+  
+  .hero-content h4 {
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+  
+  .hero-content h1 {
+    margin-bottom: 15px;
+    font-size: 42px;
+  }
+  
+  .hero-content p {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+  
+  .hero-content a {
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: #fff;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+  }
+  
+  .hero-navigation {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    z-index: 2;
+  }
+  
+  .prev-button,
+  .next-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    padding: 10px;
+  }
+  
+  .slide-bar {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .slide-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+  }
+  
+  .slide-dot.active {
+    background-color: #fff;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: 32px;
+    }
+  
+    .hero-content p {
+      font-size: 16px;
+    }
+  
+    .hero-content a {
+      font-size: 14px;
+    }
+  }
+  

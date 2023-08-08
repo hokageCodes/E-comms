@@ -1,0 +1,17 @@
+.mainnav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.ul {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    gap: 30px;
+    cursor: pointer;
+}
+.profile-options {
+    display: flex;
+    gap: 40px;
+    cursor: pointer;
+};

@@ -22,7 +22,7 @@ app.use(passport.session());
 app.use('/api/auth', require('./routes/auth'));
 
 mongoose
-    .connect("mongodb+srv://Hosteet:Trucki%402023@cluster0.5aikql0.mongodb.net/?retryWrites=true&w=majority", {
+    .connect("mongodb+srv://busayoogunde:orochimaru1@euphoria.jcqunvq.mongodb.net/", {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
